@@ -1,7 +1,7 @@
 #
 # Author:: Joshua Timberman <joshua@opscode.com>
 # Author:: Joshua Sierles <joshua@37signals.com>
-# Cookbook Name:: chef-server
+# Cookbook Name:: ele_chef-server
 # Recipe:: default
 #
 # Copyright 2008-2011, Opscode, Inc

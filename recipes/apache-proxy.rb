@@ -1,6 +1,6 @@
 #
 # Author:: Joshua Timberman <joshua@opscode.com>
-# Cookbook Name:: chef-server
+# Cookbook Name:: ele_chef-server
 # Recipe:: apache-proxy
 #
 # Copyright 2009-2011, Opscode, Inc
@@ -24,7 +24,7 @@ root_group = value_for_platform(
 )
 
 node['apache']['listen_ports'] << "443" unless node['apache']['listen_ports'].include?("443")
-if node['chef_server']['webui_enabled']
+if node['ele_chef_server']['webui_enabled']
   node['apache']['listen_ports'] << "444" unless node['apache']['listen_ports'].include?("444")
 end
 
@@ -49,7 +49,7 @@ bash "Create SSL Certificates" do
   code <<-EOH
   umask 077
   openssl genrsa 2048 > chef-server-proxy.key
-  openssl req -subj "#{node['chef_server']['ssl_req']}" -new -x509 -nodes -sha1 -days 3650 -key chef-server-proxy.key > chef-server-proxy.crt
+  openssl req -subj "#{node['ele_chef_server']['ssl_req']}" -new -x509 -nodes -sha1 -days 3650 -key chef-server-proxy.key > chef-server-proxy.crt
   cat chef-server-proxy.key chef-server-proxy.crt > chef-server-proxy.pem
   EOH
   not_if { ::File.exists?("/etc/chef/certificates/chef-server-proxy.pem") }
@@ -57,11 +57,11 @@ end
 
 web_app "chef-server-proxy" do
   template "chef_server.conf.erb"
-  api_server_name node['chef_server']['proxy']['api_server_name']
-  api_server_aliases node['chef_server']['proxy']['api_aliases']
-  api_port node['chef_server']['proxy']['api_port']
-  webui_server_name node['chef_server']['proxy']['webui_server_name']
-  webui_server_aliases node['chef_server']['proxy']['webui_aliases']
-  webui_port node['chef_server']['proxy']['webui_port']
+  api_server_name node['ele_chef_server']['proxy']['api_server_name']
+  api_server_aliases node['ele_chef_server']['proxy']['api_aliases']
+  api_port node['ele_chef_server']['proxy']['api_port']
+  webui_server_name node['ele_chef_server']['proxy']['webui_server_name']
+  webui_server_aliases node['ele_chef_server']['proxy']['webui_aliases']
+  webui_port node['ele_chef_server']['proxy']['webui_port']
   log_dir node['apache']['log_dir']
 end

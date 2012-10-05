@@ -15,10 +15,10 @@
 # description: starts up chef-expander in daemon mode.
 
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-DAEMON=<%= node["chef_server"]["bin_path"] %>/chef-expander
+DAEMON=<%= node["ele_chef_server"]["bin_path"] %>/chef-expander
 NAME=chef-expander
 DESC=chef-expander
-PIDFILE=<%= node["chef_server"]["run_path"] %>/expander.pid
+PIDFILE=<%= node["ele_chef_server"]["run_path"] %>/expander.pid
 
 test -x $DAEMON || exit 0
 
@@ -26,9 +26,9 @@ test -x $DAEMON || exit 0
 
 [ -r /etc/default/$NAME ] && . /etc/default/$NAME
 
-if [ ! -d <%= node["chef_server"]["run_path"] %> ]; then
-  mkdir <%= node["chef_server"]["run_path"] %>
-  chown $USER:$GROUP <%= node["chef_server"]["run_path"] %>
+if [ ! -d <%= node["ele_chef_server"]["run_path"] %> ]; then
+  mkdir <%= node["ele_chef_server"]["run_path"] %>
+  chown $USER:$GROUP <%= node["ele_chef_server"]["run_path"] %>
 fi
 
 DAEMON_OPTS="-d -c $CONFIG -P $PIDFILE -L $LOGFILE $CHEF_EXPANDER_ARGS"

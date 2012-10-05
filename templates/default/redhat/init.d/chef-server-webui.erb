@@ -18,19 +18,19 @@
 # Source function library
 . /etc/init.d/functions
 
-exec="<%= node["chef_server"]["bin_path"] %>/chef-server-webui"
+exec="<%= node["ele_chef_server"]["bin_path"] %>/chef-server-webui"
 prog="chef-server-webui"
 
 [ -f /etc/sysconfig/$prog ] && . /etc/sysconfig/$prog
 
 config=${CONFIG-/etc/chef/webui.rb}
-pidfile=${PIDFILE-<%= node["chef_server"]["run_path"] %>/server-webui.main.pid}
+pidfile=${PIDFILE-<%= node["ele_chef_server"]["run_path"] %>/server-webui.main.pid}
 lockfile=${LOCKFILE-/var/lock/subsys/$prog}
 logfile=${LOGFILE-/var/log/chef/server-webui.log}
 port=${PORT-4040}
 env=${ENVIRONMENT-production}
 adapter=${ADAPTER-thin}
-childpidfiles=${CHILDPIDFILES-<%= node["chef_server"]["run_path"] %>/server-webui.%s.pid}
+childpidfiles=${CHILDPIDFILES-<%= node["ele_chef_server"]["run_path"] %>/server-webui.%s.pid}
 user=${SERVER_USER-chef}
 group=${SERVER_GROUP-chef}
 options=${OPTIONS-}

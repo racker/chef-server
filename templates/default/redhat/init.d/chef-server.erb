@@ -18,19 +18,19 @@
 # Source function library
 . /etc/init.d/functions
 
-exec="<%= node["chef_server"]["bin_path"] %>/chef-server"
+exec="<%= node["ele_chef_server"]["bin_path"] %>/chef-server"
 prog="chef-server"
 
 [ -f /etc/sysconfig/$prog ] && . /etc/sysconfig/$prog
 
 config=${CONFIG-/etc/chef/server.rb}
-pidfile=${PIDFILE-<%= node["chef_server"]["run_path"] %>/server.main.pid}
+pidfile=${PIDFILE-<%= node["ele_chef_server"]["run_path"] %>/server.main.pid}
 lockfile=${LOCKFILE-/var/lock/subsys/$prog}
 logfile=${LOGFILE-/var/log/chef/server.log}
 port=${PORT-4000}
 env=${ENVIRONMENT-production}
 adapter=${ADAPTER-thin}
-childpidfiles=${CHILDPIDFILES-<%= node["chef_server"]["run_path"] %>/server.%s.pid}
+childpidfiles=${CHILDPIDFILES-<%= node["ele_chef_server"]["run_path"] %>/server.%s.pid}
 user=${SERVER_USER-chef}
 group=${SERVER_GROUP-chef}
 options=${OPTIONS-}

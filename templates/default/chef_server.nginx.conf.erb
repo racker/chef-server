@@ -1,9 +1,9 @@
 upstream chef_server {
-  server 127.0.0.1:<%= node['chef_server']['api_port'] %> fail_timeout=0;
+  server 127.0.0.1:<%= node['ele_chef_server']['api_port'] %> fail_timeout=0;
 }
 
 upstream chef_server_webui {
-  server 127.0.0.1:<%= node['chef_server']['webui_port'] %> fail_timeout=0; 
+  server 127.0.0.1:<%= node['ele_chef_server']['webui_port'] %> fail_timeout=0; 
 }
 
 server {
@@ -14,7 +14,7 @@ server {
   access_log <%= node[:nginx][:log_dir] %>/chef-server.access.log;
   error_log <%= node[:nginx][:log_dir] %>/chef-server.error.log warn;
 
-  root <%= node['chef_server']['doc_root'] %>;
+  root <%= node['ele_chef_server']['doc_root'] %>;
   
   location @chef_server {
     proxy_set_header X-Forwarded-Proto https;
@@ -38,7 +38,7 @@ server {
 }
 
 <% end %>
-<% if node['chef_server']['webui_enabled'] -%>
+<% if node['ele_chef_server']['webui_enabled'] -%>
 server {
   listen <%= @webui_port %> ssl;
   ssl_certificate /etc/chef/certificates/chef-server-proxy.pem;
@@ -47,7 +47,7 @@ server {
   access_log <%= node[:nginx][:log_dir] %>/chef-server.access.log;
   error_log <%= node[:nginx][:log_dir] %>/chef-server.error.log warn;
 
-  root <%= node['chef_server']['doc_root'] %>;
+  root <%= node['ele_chef_server']['doc_root'] %>;
   
   location @chef_server_webui {
     proxy_set_header X-Forwarded-Proto https;
@@ -57,13 +57,13 @@ server {
   }
 
   location ~ ^.+\.css$ {
-    expires <%= node['chef_server']['proxy']['css_expire_hours'] %>h;
+    expires <%= node['ele_chef_server']['proxy']['css_expire_hours'] %>h;
 
     try_files $uri @chef_server_webui;
   }
 
   location ~ ^.+\.js$ {
-    expires <%= node['chef_server']['proxy']['js_expire_hours'] %>h;
+    expires <%= node['ele_chef_server']['proxy']['js_expire_hours'] %>h;
 
     try_files $uri @chef_server_webui;
   }

@@ -43,7 +43,7 @@ when "ubuntu"
   end
 
   include_recipe "java"
-  include_recipe "chef-server::rabbitmq"
+  include_recipe "ele_chef-server::rabbitmq"
   include_recipe "gecode"
 
 when "debian"
@@ -54,14 +54,14 @@ when "debian"
   end
 
   include_recipe "java"
-  include_recipe "chef-server::rabbitmq"
+  include_recipe "ele_chef-server::rabbitmq"
   include_recipe "gecode"
 
 when "centos","redhat","fedora","amazon"
 
   include_recipe "couchdb"
   include_recipe "java"
-  include_recipe "chef-server::rabbitmq"
+  include_recipe "ele_chef-server::rabbitmq"
   include_recipe "gecode"
 
 else

@@ -30,7 +30,7 @@ root_group = value_for_platform(
 user "chef" do
   system true
   shell "/bin/sh"
-  home node['chef_server']['path']
+  home node['ele_chef_server']['path']
 end
 
 case node['platform']
@@ -80,7 +80,8 @@ include_recipe "xml"
 server_gems = %w{ chef-server-api chef-solr chef-expander }
 server_services = %w{ chef-solr chef-expander chef-server }
 
-if node['chef_server']['webui_enabled']
+if node['ele_chef_server']['webui_enabled']
+
   server_gems << "chef-server-webui"
   server_services << "chef-server-webui"
 end
@@ -92,11 +93,11 @@ server_gems.each do |gem|
 end
 
 chef_dirs = [
-  node['chef_server']['log_dir'],
-  node['chef_server']['path'],
-  node['chef_server']['cache_path'],
-  node['chef_server']['backup_path'],
-  node['chef_server']['run_path'],
+  node['ele_chef_server']['log_dir'],
+  node['ele_chef_server']['path'],
+  node['ele_chef_server']['cache_path'],
+  node['ele_chef_server']['backup_path'],
+  node['ele_chef_server']['run_path'],
   "/etc/chef"
 ]
 
@@ -126,7 +127,7 @@ end
   end
 end
 
-directory node['chef_server']['path'] do
+directory node['ele_chef_server']['path'] do
   owner "chef"
   group root_group
   mode 0755
@@ -134,7 +135,7 @@ directory node['chef_server']['path'] do
 end
 
 %w{ cache search_index }.each do |dir|
-  directory "#{node['chef_server']['path']}/#{dir}" do
+  directory "#{node['ele_chef_server']['path']}/#{dir}" do
     owner "chef"
     group root_group
     mode 0755
@@ -148,7 +149,7 @@ directory "/etc/chef/certificates" do
   mode 0700
 end
 
-directory node['chef_server']['run_path'] do
+directory node['ele_chef_server']['run_path'] do
   owner "chef"
   group root_group
   mode 0755
@@ -159,10 +160,10 @@ end
 execute "chef-solr-installer" do
   command  "chef-solr-installer -c /etc/chef/solr.rb -u chef -g #{root_group}"
   path %w{ /usr/local/sbin /usr/local/bin /usr/sbin /usr/bin /sbin /bin }
-  not_if { ::File.exists?("#{node['chef_server']['path']}/solr/home") }
+  not_if { ::File.exists?("#{node['ele_chef_server']['path']}/solr/home") }
 end
 
-case node['chef_server']['init_style']
+case node['ele_chef_server']['init_style']
 when "runit"
 
   include_recipe "runit"
@@ -175,7 +176,7 @@ when "runit"
     restart_command "sv int chef-server"
   end
 
-  if node['chef_server']['webui_enabled']
+  if node['ele_chef_server']['webui_enabled']
     service "chef-server-webui" do
       restart_command "sv int chef-server-webui"
     end
@@ -183,7 +184,7 @@ when "runit"
 
 when "init"
 
-  directory node['chef_server']['run_path'] do
+  directory node['ele_chef_server']['run_path'] do
     action :create
     owner "chef"
     group root_group
@@ -217,7 +218,7 @@ when "init"
       mode 0644
     end
 
-    link "#{node['chef_server']['bin_path']}/#{svc}" do
+    link "#{node['ele_chef_server']['bin_path']}/#{svc}" do
       to "#{node['languages']['ruby']['bin_dir']}/#{svc}"
     end
 
@@ -261,9 +262,9 @@ when "daemontools"
 when "bsd"
 
   log("You specified service style 'bsd'. You will need to set up your rc.local file for chef-expander, chef-solr and chef-server.")
-  log("chef-expander startup command: chef-expander -d -n #{node['chef_server']['expander_nodes']}")
+  log("chef-expander startup command: chef-expander -d -n #{node['ele_chef_server']['expander_nodes']}")
   log("chef-solr startup command: chef-solr -d")
-  log("chef-server startup command: chef-server -d -N -p #{node['chef_server']['api_port']} -e production -P #{node['chef_server']['run_path']}/server.%s.pid")
+  log("chef-server startup command: chef-server -d -N -p #{node['ele_chef_server']['api_port']} -e production -P #{node['ele_chef_server']['run_path']}/server.%s.pid")
 
 else
 

@@ -13,6 +13,6 @@ recipe            "ele_chef-server::nginx-proxy", "Configures NGINX proxy for AP
   supports os
 end
 
-%w{ runit couchdb apache2 nginx openssl zlib xml java gecode }.each do |cb|
+%w{ runit couchdb apache2 openssl zlib xml java gecode }.each do |cb|
   depends cb
 end
